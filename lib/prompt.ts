@@ -9,7 +9,6 @@ function summarizePreferences(data: FormData) {
     `Dating platform: ${data.platform}`,
     `Goals: ${data.goals}`,
     `Interests: ${data.interests}`,
-    data.valuesBoundaries ? `Values & boundaries: ${data.valuesBoundaries}` : undefined,
     `Preferred tone/style: ${data.stylePreference}`,
     `Preferred length: ${data.lengthPreference}`,
   ].filter(Boolean);

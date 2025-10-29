@@ -1,10 +1,9 @@
 export interface FormData {
   ageBracket: string;
-  gender?: string;
+  gender: string;
   platform: string;
   goals: string;
   interests: string;
-  valuesBoundaries?: string;
   stylePreference: string;
   lengthPreference: string;
 }

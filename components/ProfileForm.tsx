@@ -12,16 +12,16 @@ const MAX_TEXT_LENGTH = 600;
 
 const defaultState: FormData = {
   ageBracket: '45-54',
-  gender: '',
+  gender: 'Female',
   platform: 'Hinge',
   goals: '',
   interests: '',
-  valuesBoundaries: '',
   stylePreference: 'Warm and encouraging',
   lengthPreference: 'Medium (150-200 words)',
 };
 
 const ageOptions = ['40-44', '45-54', '55-64', '65+'];
+const genderOptions = ['Female', 'Male', 'Other / Prefer to self-describe'];
 const platformOptions = ['Hinge', 'Bumble', 'Match', 'Tinder'];
 const styleOptions = [
   'Warm and encouraging',
@@ -43,7 +43,6 @@ export function ProfileForm({ onGenerate, isLoading }: ProfileFormProps) {
     () => ({
       goals: formState.goals.length,
       interests: formState.interests.length,
-      valuesBoundaries: formState.valuesBoundaries?.length ?? 0,
     }),
     [formState]
   );
@@ -72,10 +71,6 @@ export function ProfileForm({ onGenerate, isLoading }: ProfileFormProps) {
 
     await onGenerate({
       ...formState,
-      gender: formState.gender?.trim() ? formState.gender.trim() : undefined,
-      valuesBoundaries: formState.valuesBoundaries?.trim()
-        ? formState.valuesBoundaries.trim()
-        : undefined,
     });
   };
 
@@ -115,15 +110,19 @@ export function ProfileForm({ onGenerate, isLoading }: ProfileFormProps) {
         </div>
         <div className="space-y-2">
           <label className="block text-sm font-medium text-stone-700">
-            Gender (optional)
+            Gender
           </label>
-          <input
-            value={formState.gender ?? ''}
+          <select
+            value={formState.gender}
             onChange={(event) => handleChange('gender', event.target.value)}
-            onBlur={() => markTouched('gender')}
-            placeholder="e.g., Woman, Man, Non-binary"
-            className="w-full rounded-xl border border-stone-300 bg-white px-3 py-3 text-stone-800 placeholder:text-stone-400 focus:border-rose-400"
-          />
+            className="w-full rounded-xl border border-stone-300 bg-white px-3 py-3 text-stone-800 focus:border-rose-400"
+          >
+            {genderOptions.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
 
@@ -160,46 +159,27 @@ export function ProfileForm({ onGenerate, isLoading }: ProfileFormProps) {
         </div>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2">
-        <div className="space-y-2">
-          <label className="block text-sm font-medium text-stone-700">
-            Preferred length
-          </label>
-          <select
-            value={formState.lengthPreference}
-            onChange={(event) => handleChange('lengthPreference', event.target.value)}
-            className="w-full rounded-xl border border-stone-300 bg-white px-3 py-3 text-stone-800 focus:border-rose-400"
-          >
-            {lengthOptions.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="space-y-2">
-          <label className="block text-sm font-medium text-stone-700">
-            Values or boundaries (optional)
-          </label>
-          <textarea
-            value={formState.valuesBoundaries ?? ''}
-            onChange={(event) =>
-              handleChange('valuesBoundaries', event.target.value.slice(0, MAX_TEXT_LENGTH))
-            }
-            onBlur={() => markTouched('valuesBoundaries')}
-            rows={3}
-            placeholder="Anything you want to be clear about up front."
-            className="w-full rounded-xl border border-stone-300 bg-white px-3 py-3 text-stone-800 placeholder:text-stone-400 focus:border-rose-400"
-          />
-          <div className="flex items-center justify-between text-xs text-stone-500">
-            <span>Optional</span>
-            {renderCounter(characterCounts.valuesBoundaries)}
-          </div>
-        </div>
+      <div className="space-y-2">
+        <label className="block text-sm font-medium text-stone-700">
+          Preferred length
+        </label>
+        <select
+          value={formState.lengthPreference}
+          onChange={(event) => handleChange('lengthPreference', event.target.value)}
+          className="w-full rounded-xl border border-stone-300 bg-white px-3 py-3 text-stone-800 focus:border-rose-400"
+        >
+          {lengthOptions.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className="space-y-2">
-        <label className="block text-sm font-medium text-stone-700">Tell us your goals</label>
+        <label className="block text-sm font-medium text-stone-700">
+          Tell us your goals
+        </label>
         <textarea
           value={formState.goals}
           onChange={(event) => handleChange('goals', event.target.value.slice(0, MAX_TEXT_LENGTH))}
