@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mature-dater-ai.example.com/sitemap.xml

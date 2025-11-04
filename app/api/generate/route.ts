@@ -1,16 +1,15 @@
 import { NextResponse } from 'next/server';
 import OpenAI from 'openai';
 import { buildMessages } from '@/lib/prompt';
-import type { FormData, OutputData } from '@/lib/types';
+import type { AnalyzeFormData, OutputData } from '@/lib/types';
 
-function validateBody(body: Partial<FormData>) {
+function validateBody(body: Partial<AnalyzeFormData>) {
   if (!body) return 'Missing request body.';
+  if (!body.profileText || body.profileText.trim().length < 40)
+    return 'Share a bit more of your current profile so we can offer thoughtful feedback.';
   if (!body.ageBracket) return 'Please select an age bracket.';
+  if (!body.gender) return 'Please choose how you would like us to reference you.';
   if (!body.platform) return 'Please choose a platform.';
-  if (!body.goals || body.goals.trim().length < 30)
-    return 'Share a little more about your goals so we can personalize it.';
-  if (!body.interests || body.interests.trim().length < 30)
-    return 'Share some interests or stories so we can bring your personality in.';
   if (!body.stylePreference) return 'Choose a style preference.';
   if (!body.lengthPreference) return 'Choose a length preference.';
   return null;
@@ -25,7 +24,7 @@ export async function POST(req: Request) {
   }
 
   try {
-    const body = (await req.json()) as Partial<FormData>;
+    const body = (await req.json()) as Partial<AnalyzeFormData>;
     const validationError = validateBody(body);
 
     if (validationError) {
@@ -33,7 +32,16 @@ export async function POST(req: Request) {
     }
 
     const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-    const messages = buildMessages(body as FormData);
+    const messages = buildMessages({
+      profileText: body.profileText?.trim() ?? '',
+      notes: body.notes?.trim() ?? '',
+      ageBracket: body.ageBracket ?? '',
+      gender: body.gender ?? '',
+      platform: body.platform ?? '',
+      priorities: Array.isArray(body.priorities) ? body.priorities : [],
+      stylePreference: body.stylePreference ?? '',
+      lengthPreference: body.lengthPreference ?? '',
+    });
 
     const completion = await client.chat.completions.create({
       model: 'gpt-4o-mini',

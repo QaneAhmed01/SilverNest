@@ -1,45 +1,75 @@
 import type { Metadata } from 'next';
-import { Playfair_Display, Inter } from 'next/font/google';
+import { Inter, Playfair_Display } from 'next/font/google';
 import './globals.css';
-
-const playfair = Playfair_Display({
-  subsets: ['latin'],
-  variable: '--font-playfair',
-  display: 'swap',
-});
+import { SiteHeader } from '@/components/layout/site-header';
+import { SiteFooter } from '@/components/layout/site-footer';
+import { Toaster } from '@/components/ui/toaster';
+import { MotionProvider } from '@/components/providers/motion-provider';
+import { Analytics } from '@vercel/analytics/react';
 
 const inter = Inter({
   subsets: ['latin'],
-  variable: '--font-inter',
+  variable: '--font-sans',
   display: 'swap',
 });
 
+const playfair = Playfair_Display({
+  subsets: ['latin'],
+  variable: '--font-serif',
+  display: 'swap',
+});
+
+const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://silvernest.example.com';
+
 export const metadata: Metadata = {
-  title: 'SilverNest | Mature Dater Profile Builder',
+  metadataBase: new URL(baseUrl),
+  title: {
+    default: 'SilverNest | Confident Profiles for Real Connections',
+    template: '%s · SilverNest',
+  },
   description:
-    'Craft a warm, confident dating profile tailored for modern platforms with the help of AI tuned for mature daters.',
-  metadataBase: new URL('https://silvernest.example.com'),
+    'Feel confident about your dating profile. SilverNest gives calm, practical guidance crafted for adults 40+ seeking meaningful matches.',
+  alternates: {
+    canonical: '/',
+  },
   openGraph: {
-    title: 'SilverNest | Mature Dater Profile Builder',
+    title: 'SilverNest',
     description:
-      'Generate a polished dating profile, thoughtful prompt answers, and authentic first messages designed for mature daters.',
-    url: 'https://silvernest.example.com',
+      'Kind, practical feedback written for real connections — not gimmicks. Improve your dating profile with SilverNest.',
     siteName: 'SilverNest',
+    url: baseUrl,
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'SilverNest | Mature Dater Profile Builder',
+    title: 'SilverNest',
     description:
-      'Write a dating profile that sounds like you — designed for mature daters on modern platforms.',
+      'Kind, practical feedback written for real connections — not gimmicks. Improve your dating profile with SilverNest.',
+  },
+  icons: {
+    icon: '/logo.svg',
+    apple: '/logo.svg',
   },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${playfair.variable} ${inter.variable}`}>
-      <body className="min-h-screen bg-gradient-to-b from-stone-50 via-stone-50 to-white font-sans">
-        {children}
+    <html lang="en" className={`${inter.variable} ${playfair.variable}`} suppressHydrationWarning>
+      <body className="min-h-screen bg-background text-ink">
+        <a href="#skip" data-skip-link>
+          Skip to content
+        </a>
+        <MotionProvider>
+          <div className="relative flex min-h-screen flex-col">
+            <SiteHeader />
+            <main id="skip" className="flex-1">
+              {children}
+            </main>
+            <SiteFooter />
+          </div>
+        </MotionProvider>
+        <Toaster />
+        <Analytics />
       </body>
     </html>
   );

@@ -1,22 +1,23 @@
-import type { FormData } from './types';
+import type { AnalyzeFormData } from './types';
 
 const systemPrompt = `You are an expert writer helping mature adults (40+) craft warm, confident dating profiles. Avoid youthful slang, pickup language, or innuendo. Focus on clarity, kindness, humor, and emotional maturity. Adapt tone to platform: shorter for Tinder/Bumble; more reflective for Match/Hinge.`;
 
-function summarizePreferences(data: FormData) {
+function summarizePreferences(data: AnalyzeFormData) {
   const segments = [
+    data.profileText ? `Current profile draft:\n${data.profileText}` : undefined,
+    data.notes ? `Additional context:\n${data.notes}` : undefined,
     `Age bracket: ${data.ageBracket}`,
-    data.gender ? `Gender: ${data.gender}` : undefined,
-    `Dating platform: ${data.platform}`,
-    `Goals: ${data.goals}`,
-    `Interests: ${data.interests}`,
+    `Gender identity: ${data.gender}`,
+    `Primary platform: ${data.platform}`,
+    data.priorities.length ? `Priorities: ${data.priorities.join(', ')}` : undefined,
     `Preferred tone/style: ${data.stylePreference}`,
     `Preferred length: ${data.lengthPreference}`,
   ].filter(Boolean);
 
-  return segments.join('\n');
+  return segments.join('\n\n');
 }
 
-export function buildMessages(data: FormData) {
+export function buildMessages(data: AnalyzeFormData) {
   const summary = summarizePreferences(data);
 
   const userPrompt = `You will receive information about a mature dater. Craft authentic, encouraging language that respects their life experience.

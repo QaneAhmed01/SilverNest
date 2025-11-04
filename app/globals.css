@@ -2,45 +2,112 @@
 @tailwind components;
 @tailwind utilities;
 
-html,
-body {
-  @apply bg-stone-50 text-stone-800 antialiased;
+:root {
+  color-scheme: light;
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-serif: 'Playfair Display', Georgia, serif;
+
+  --color-bg: #faf7f3;
+  --color-panel: #ffffff;
+  --color-ink: #2b2b2b;
+  --color-subtle: #6b6b6b;
+  --color-brand: #9c6b6b;
+  --color-brand-ink: #5b3c3c;
+  --color-accent: #3e796a;
+  --color-border: #e7e1da;
+  --color-success: #3b7a57;
+  --color-warning: #b7791f;
+  --color-error: #9b2c2c;
+
+  --radius-sm: 0.75rem;
+  --radius-md: 1.25rem;
+  --radius-lg: 1.75rem;
+
+  scroll-behavior: smooth;
 }
 
-::selection {
-  @apply bg-rose-400 text-white;
-}
-
-a {
-  @apply text-rose-500 underline-offset-4 hover:underline;
-}
-
-input:focus,
-textarea:focus,
-select:focus {
-  @apply ring-2 ring-rose-300 outline-none;
-}
-
-.btn-primary {
-  @apply bg-rose-400 hover:bg-rose-500 text-white font-semibold px-6 py-3 rounded-full transition-shadow shadow-soft;
-}
-
-.btn-secondary {
-  @apply bg-white text-stone-800 border border-stone-200 hover:border-rose-400 hover:text-rose-500 rounded-full px-5 py-2 transition;
-}
-
-.animate-fade-in {
-  animation: fade-in 0.2s ease-out;
-}
-
-@keyframes fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
+@layer base {
+  html {
+    font-size: 18px;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  body {
+    background: var(--color-bg);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    @apply antialiased leading-relaxed;
+  }
+
+  .home-snap {
+    scroll-snap-type: y mandatory;
+  }
+
+  .home-snap-section {
+    min-height: 100vh;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  a {
+    @apply text-brand underline-offset-8;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--color-brand) 85%, white);
+    color: white;
+  }
+
+  *:focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-focus, 0 0 0 4px color-mix(in srgb, var(--color-brand) 30%, transparent));
+  }
+
+  :focus-visible {
+    @apply ring-0;
+  }
+
+  [data-skip-link] {
+    position: absolute;
+    top: -100px;
+    left: 1.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-md);
+    background: var(--color-brand);
+    color: #ffffff;
+    transition: top 160ms ease;
+    z-index: 50;
+  }
+
+  [data-skip-link]:focus {
+    top: 1rem;
+  }
+}
+
+@layer components {
+  .card-surface {
+    @apply rounded-[1.75rem] border border-border bg-surface shadow-card transition-all;
+  }
+
+  .prose-muted {
+    @apply text-subtle;
+  }
+}
+
+@layer utilities {
+  .bg-noise {
+    background-image: radial-gradient(rgba(0, 0, 0, 0.035) 1px, transparent 1px);
+    background-size: 18px 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 

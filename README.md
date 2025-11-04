@@ -1,45 +1,63 @@
-# SilverNest · Mature Dater Profile Builder
+# SilverNest · Experience Overview
 
-SilverNest helps adults 40+ craft warm, confident dating profiles in minutes. This Next.js App Router project pairs a tailored prompt with the OpenAI API to produce a profile bio, prompt answers, and respectful first messages in a single click.
+SilverNest helps adults 40+ feel confident about their dating profiles. This project delivers a calm, accessible, and production-ready experience built with the Next.js App Router.
 
-## Features
-- ✨ Elegant, responsive UI themed for a calm, mature audience
-- 🧠 AI-powered copywriting tuned for Hinge, Bumble, Match, and Tinder
-- 📝 Instant copy-ready bio, prompt answers, first messages, and style notes
-- 📄 Print-friendly layout that hides form controls when saving as PDF
-- 🚀 Ready for Vercel deployment with `output: 'standalone'`
+## ✨ Highlights
+- Thoughtful UX across **Home**, **Analyze**, **Result**, and **About** pages
+- **Shadcn-inspired component library** with Tailwind design tokens
+- **Framer Motion** micro-interactions that honor `prefers-reduced-motion`
+- **OpenAI API** integration that keeps business logic untouched
+- Built for **WCAG 2.2 AA** with keyboard navigation, focus rings, and skip link support
+- Ready for **Vercel** deployment (`output: 'standalone'`), robots/sitemap included
 
-## Getting Started
-1. Install dependencies:
+## 🚀 Getting Started
+1. Install dependencies
    ```bash
    npm install
    ```
-2. Copy `.env.local.example` to `.env.local` and add your OpenAI key:
+2. Configure environment variables
    ```bash
    cp .env.local.example .env.local
-   # Update OPENAI_API_KEY=...
+   # Add your OpenAI API key to .env.local
    ```
-3. Run the dev server:
+3. Run the development server
    ```bash
    npm run dev
    ```
-4. Visit [http://localhost:3000](http://localhost:3000) and start generating profiles.
+   Visit [http://localhost:3000](http://localhost:3000)
 
-## Deployment
-- Push to GitHub and choose **Import Project** on Vercel.
-- Ensure the `OPENAI_API_KEY` environment variable is set in the Vercel dashboard.
-- Build command: `npm run build`
-- Output is production-ready; default route lives at `/`, preventing 404s.
+## 🧭 App Structure
+- `/` — Hero + value prop + how it works
+- `/analyze` — Two-step flow for uploads, text input, and preferences
+- `/result` — Highlights, improvements, and suggested rewrite
+- `/about` — Trust, privacy, and FAQ content
 
-## Tech Stack
-- Next.js 14 App Router + TypeScript
-- TailwindCSS with custom palette and typography
-- OpenAI Node SDK (`gpt-4o-mini`)
+## 🛠️ Scripts
+- `npm run dev` — Start Next.js dev server
+- `npm run build` — Production build
+- `npm run start` — Run built app
+- `npm run lint` — Lint with Next.js
+- `npm run test` — Unit tests (Vitest)
+- `npm run test:ui` — Vitest UI runner
+- `npm run test:e2e` — Playwright accessibility/navigation check
 
-## Notes
-- The API route expects meaningful `goals` and `interests` input (≥ 30 characters).
-- No data is stored; the form simply posts to `/api/generate` and returns the generated copy.
-- Customize the UI by editing `app/page.tsx` and the Tailwind theme in `tailwind.config.ts`.
+## 🧩 Key Files
+- `app/layout.tsx` — Global metadata, fonts, analytics, header/footer, toaster
+- `app/page.tsx` — Home page content (Hero, ValueCards, HowItWorks)
+- `app/analyze/page.tsx` & `components/analyze/*` — Profile intake flow
+- `app/result/page.tsx` & `components/result/*` — Feedback presentation
+- `app/about/page.tsx` — Brand commitments + FAQ
+- `lib/prompt.ts` — System/user prompt builder (unchanged business logic)
 
-Enjoy helping mature daters feel seen with SilverNest.
-# SilverNest
+## 🔐 Privacy Notes
+- Inputs stay in the browser; results persist in `sessionStorage` until cleared
+- Photos never leave the client; OpenAI API only receives form text data
+- Clear results via the **Delete all** dialog on `/result`
+
+## 📦 Deployment Tips
+- Ensure `OPENAI_API_KEY` is set in your Vercel project settings
+- Default build command: `npm run build`
+- Output mode: `standalone` (configured in `next.config.js`)
+- `robots.txt` and `sitemap.xml` ship in `/public`
+
+Enjoy renewing profiles with empathy and polish.
