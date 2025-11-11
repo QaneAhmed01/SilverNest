@@ -9,7 +9,6 @@ function summarizePreferences(data: AnalyzeFormData) {
     data.age ? `Age: ${data.age}` : undefined,
     data.profileText ? `Current profile draft:\n${data.profileText}` : undefined,
     data.notes ? `Additional context:\n${data.notes}` : undefined,
-    data.age ? `Age: ${data.age}` : undefined,
     `Gender identity: ${data.gender}`,
     `Primary platform: ${data.platform}`,
     data.priorities.length ? `Priorities: ${data.priorities.join(', ')}` : undefined,

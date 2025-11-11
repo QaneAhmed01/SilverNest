@@ -5,6 +5,9 @@ import { SiteHeader } from '@/components/layout/site-header';
 import { SiteFooter } from '@/components/layout/site-footer';
 import { Toaster } from '@/components/ui/toaster';
 import { MotionProvider } from '@/components/providers/motion-provider';
+import { PostHogProvider } from '@/components/providers/posthog-provider';
+import { GoogleAnalytics } from '@/components/analytics/google-analytics';
+import { GoogleAnalyticsPageView } from '@/components/analytics/ga-pageview';
 import { Analytics } from '@vercel/analytics/react';
 
 const inter = Inter({
@@ -56,18 +59,22 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable}`} suppressHydrationWarning>
       <body className="min-h-screen bg-background text-ink">
+        <GoogleAnalytics />
+        <GoogleAnalyticsPageView />
         <a href="#skip" data-skip-link>
           Skip to content
         </a>
-        <MotionProvider>
-          <div className="relative flex min-h-screen flex-col">
-            <SiteHeader />
-            <main id="skip" className="flex-1">
-              {children}
-            </main>
-            <SiteFooter />
-          </div>
-        </MotionProvider>
+        <PostHogProvider>
+          <MotionProvider>
+            <div className="relative flex min-h-screen flex-col">
+              <SiteHeader />
+              <main id="skip" className="flex-1">
+                {children}
+              </main>
+              <SiteFooter />
+            </div>
+          </MotionProvider>
+        </PostHogProvider>
         <Toaster />
         <Analytics />
       </body>
