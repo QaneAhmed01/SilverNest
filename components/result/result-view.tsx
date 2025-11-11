@@ -58,7 +58,7 @@ export function ResultView() {
 
   useEffect(() => {
     setPhotoIndex(0);
-  }, [gallery.map((photo) => photo.id).join(','), record?.input.photoDataUrl]);
+  }, [gallery.length]);
 
   const handleClear = () => {
     clearResult();

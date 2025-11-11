@@ -197,7 +197,7 @@ function HingeProfile({ accent, photo, bio, prompts, messages, name, city, age }
           <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
             <div>
               <p className="text-lg font-semibold text-ink">{name}</p>
-              <p className="text-sm text-subtle">{age} · Advisor · 5'8" · lives in {city}</p>
+              <p className="text-sm text-subtle">{age} · Advisor · 5&#39;8&quot; · lives in {city}</p>
             </div>
             <div className="rounded-full border border-[#D9D1C7] px-3 py-1 text-xs uppercase tracking-wide text-[#7C6A5A]">
               Liberal • ENFP
@@ -225,7 +225,7 @@ function BumbleProfile({ accent, photo, bio, prompts, messages, name, city, age 
         <p className="mt-4 text-sm text-ink/80">{bio}</p>
         <div className="mt-4 grid gap-2 text-xs text-subtle md:grid-cols-2">
           <div>🧭 Looking for: {prompts[0] || 'Meaningful partnership'}</div>
-          <div>📏 Height: 5'8"</div>
+          <div>📏 Height: 5&#39;8&quot;</div>
           <div>🙏 Values: Empathy, humor</div>
           <div>📍 Within 25 miles</div>
         </div>
