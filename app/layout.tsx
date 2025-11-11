@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter, Playfair_Display } from 'next/font/google';
 import './globals.css';
+import { Suspense } from 'react';
 import { SiteHeader } from '@/components/layout/site-header';
 import { SiteFooter } from '@/components/layout/site-footer';
 import { Toaster } from '@/components/ui/toaster';
@@ -60,21 +61,25 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${inter.variable} ${playfair.variable}`} suppressHydrationWarning>
       <body className="min-h-screen bg-background text-ink">
         <GoogleAnalytics />
-        <GoogleAnalyticsPageView />
+        <Suspense fallback={null}>
+          <GoogleAnalyticsPageView />
+        </Suspense>
         <a href="#skip" data-skip-link>
           Skip to content
         </a>
-        <PostHogProvider>
-          <MotionProvider>
-            <div className="relative flex min-h-screen flex-col">
-              <SiteHeader />
-              <main id="skip" className="flex-1">
-                {children}
-              </main>
-              <SiteFooter />
-            </div>
-          </MotionProvider>
-        </PostHogProvider>
+        <Suspense fallback={null}>
+          <PostHogProvider>
+            <MotionProvider>
+              <div className="relative flex min-h-screen flex-col">
+                <SiteHeader />
+                <main id="skip" className="flex-1">
+                  {children}
+                </main>
+                <SiteFooter />
+              </div>
+            </MotionProvider>
+          </PostHogProvider>
+        </Suspense>
         <Toaster />
         <Analytics />
       </body>
