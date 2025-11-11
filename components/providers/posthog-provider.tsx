@@ -21,7 +21,7 @@ export function PostHogProvider({ children }: { children: ReactNode }) {
       persistence: 'localStorage',
     });
     return () => {
-      posthog.shutdown();
+      posthog.reset();
     };
   }, []);
 
